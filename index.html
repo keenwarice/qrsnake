@@ -1,0 +1,135 @@
+<!-- some styles reused from my website (https://keenwa.x10.mx) -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>QR Snake</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The classic game Snake, stored in a QR code!" />
+  <link href='https://fonts.googleapis.com/css?family=VT323' rel='stylesheet'>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      background: black;
+      color: #00ff00;
+      font-family: 'VT323';
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .terminalTxt {
+      color: #00ff00;
+      margin: 5px;
+      opacity: 1;
+      transition: all 0.5s linear;
+    }
+
+    .button-container {
+      margin-top: 20px;
+    }
+
+    button {
+      border: 2px solid #00ff00;
+      background-color: black;
+      color: #00ff00;
+      font-family: 'VT323';
+      font-size: 20px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 20px #00ff00, 0 0 60px rgb(0, 85, 0) inset;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: rgb(0, 85, 0);
+      box-shadow: 0 0 40px rgb(0, 255, 0), 0 0 80px rgb(0, 85, 0) inset;
+      transform: scale(1.1);
+    }
+
+    #popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: black;
+      border: 2px solid rgb(0, 255, 0);
+      border-radius: 25px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgb(0, 255, 0), 0 0 60px rgb(0, 85, 0) inset;
+      text-align: center;
+    }
+
+    #popup img {
+      width: 200px;
+      height: 200px;
+      margin-bottom: 10px;
+    }
+
+    #popup button {
+      margin-top: 10px;
+    }
+    
+    a {
+      color: #00ff00;
+      text-decoration: underline;
+    }
+
+    a:hover {
+      text-decoration: line-through;
+    }
+    .pfp {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 50px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+  	}
+
+  	.pfp:hover {
+      transform: scale(1.1);
+  	}
+  </style>
+</head>
+
+<body>
+  <p class="terminalTxt">> Welcome to QR Snake!</p>
+  <p class="terminalTxt">> I originally created this project for <a href="https://saycheese.hackclub.com">saycheese</a>.</p>
+  <p class="terminalTxt">> To play, scan the QR code or visit the link below.</p>
+
+  <div class="button-container">
+    <button onclick="showPopup()">Click to show QR Code</button>
+  </div>
+  <img src="https://keenwa.x10.mx/burger.png" class="pfp" id="pfp">
+  <div id="popup">
+    <p>Scan this QR code to play QR Snake!</p>
+    <p>hint: zoom in your browser</p>
+    <img src="qrsnake.png" alt="your browser failed to load the qr code. click the link below:" />
+    <p>Too lazy? Drag <a href='data:text/html;charset=utf-8,<body>%0D%0A<script>const%20b64%3D"eJy1Vm1v2zYQ%2FiuKsgVSK8tK0vRFNt12bboV6LaiTbcBRYHSJCVxoURVpB17jr7u817%2B4X7JjqTl2KmTpkCLBIl4vHvu%2FY7DHSqJntes0KUYDc1fT%2BAqRz6r%2FNGwZBp7pMCNYhr5b06e9e6vqLLSrALqGae6QJRNOWE9e4h4xTXHoqcIFgzt%2BxUuGfKnnJ3VstGAIHh16hUNy5BfaF2rtN%2FPAE%2FFuZS5YLjmKiay7BOlHma45GKOfjk5PDj0GyaQr%2FRcMFUwZqA014KNPjSeqvApG%2FbdeWh5RrcWJW5yXqXJoMaU8iqHr7Gc9RT%2FwxzGsqGs6QGlHUs6X1CuaoHnaSbYbPD7RGmezXtLT1MCf1gzwILnVY9rVqqOVDCeFzrdT5JpMRhjcpo3clJRkBSySXeTzPwMLk4D42zPOZZax1qCqylWC2dQelDPPCUFp55l3wKJzc%2Bgs3csJDl1jhWYyrM08RLvIAEUIx%2BZ0113Oko8XkE221gtaqkgT7JK8RiUTTQbaFmDF%2FVsIFim3Zc1FcLF0v373fHM%2BXsvSdpdWq%2BiVsmKDUzoepQ3jFhosHdSVtuCptlM9yy9o%2BR4qd1WUXqYwHc7nmgtq88NzFqsu8QbZBuTwTLrDaZ8opxGMmkUCNSSW0s6j3gFlcp6LrwfG%2Fw5AR%2FoBlddvIXw4kPlMayYjWhqRW0lRKWspKoxYUvX00JOWbPY4upRctmCOxsW3N9mQSabMrWNGezH%2B2G7W5LNBK6qIuMzRkEDGFFaA11VHCXfriHZL4E1%2By3owU148%2Fx32W7jgmw2nrm5d2RuyPhLJP7oRjn%2FSul1tWy4uzFxt2ur7VkHp79yyh%2BVjHLsBUvPbdrDaHUk0sz7cLFeGSYvbTvsu7E6pHzqEYGVgmHsj14T2bDUS4Z9oLtLTpFPaxjP9WguJ56Qiu0M%2B%2FVo6GrakxURnJwiv8mD0B%2B9BB3e4xzzath3HKMlmJuLngsd8u8kiW%2Bwc7LcO5YCzI7vQnlJ%2FJWypaVkbEUnY3%2F0359%2FXyhac6a4UkpYqb9WUt52tsay%2FXPZi6281PL%2Be5lXkYbXegRbR2kvJwgW9KSEgoxzpo8FM5%2FfzZ%2FTwMQgjIieoZyYuydmTc104B9QoKunF4IfJqyZv2YCWlI2gR8ruKf11cCQuDAaK3SQQMdrT5n0oiSyCxa9XczS%2FbtJNIfqTdp3EbQ68l89%2F%2F6HEz8yaW7Qzn6USUkRMB4kt37EuogzIUFzd4KapLIMwtCCXMvRDrJJZSeJZypl8WkbOmu%2Fgi0Q1NiE%2BMny6fN%2BWfjfLKzS9j1ENbYdEi%2F7Bvmmt%2FyIwJumeW66a4pFkIswygWC%2Frwg6QheD2G78pbQAFrQf9w08uxN7SOEWHzK5nt7%2FtOff%2F3J30EInN7bC6zrb15CwhzvU3lWrXPD1SavFe%2B4X8BAX%2Bd2MdwUeHH87GQl8Mq04bqEvd0UcCBrvtBxwCIa6XAB1RpnXIjXJkhIR935FZSm5TlI4NdWNQSykafMcfq7SXII7wF%2F7eaSzJq6DAoFdJrExzOb%2F3geGYgsA4h1TtWVVAwz8hiTIjCIIRoZeQbCDCQTcJc%2BNPKEgHxqvh48sEhrWBODZdqFoUUcxxb1bfKuHZgUoC5AgNdDxkOXh3X6bUe3AV2jz5b8LqrrF07AmT%2BpVMEziEcIJs%2BAyzm%2FtwfA3Wn%2BMLB1evv2pwv5yzVNmDoLa1kHsGTAumFyfg7%2FRmZu2SFujnNHnVuqm%2Fbn505SwaaAzRXGSpYsoGhErYfMuEeteyAXhhCUj9vs44Y0m2w1qTbKpsFnweUS9ZfvCn%2BzVGHZRp310cpgUAelF5mquoDNNYCa4oicgnY1duF5cjyFjxdcQRYYTGZoKWr6NyIU2K8az7DAwi3CdqH6UWCq96oh0V4DS28Ae8U0uQ5W3AD26rFzHXJzA%2BRrxlNol9v2OTyAl45bw%2F8DEtEb8A%3D%3D"%3Bnew%20Response%28Uint8Array.from%28atob%28b64%29%2Ce%3D>e.charCodeAt%280%29%29%29.body.pipeThrough%28new%20DecompressionStream%28"deflate"%29%29.getReader%28%29.read%28%29.then%28%28%7Bvalue%3Ae%7D%29%3D>%28document.open%28%29%2Cdocument.write%28%28new%20TextDecoder%29.decode%28e%29%29%2Cdocument.close%28%29%29%29.catch%28console.error%29%3B<%2Fscript><%2Fbody>'>this</a> into a new tab!</p>
+    <button onclick="closePopup()">Close</button>
+  </div>
+
+  <script>
+    function showPopup() {
+      document.getElementById('popup').style.display = 'block';
+    }
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+    document.getElementById('pfp').addEventListener('click', function () {
+            window.location.href="https://keenwa.x10.mx/home"
+    });
+  </script>
+</body>
+
+</html>
