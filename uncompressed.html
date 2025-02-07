@@ -125,6 +125,43 @@
     <button class="control-btn" id="down-btn">↓</button>
 </div>
     <script>
+	function isFontAvailable(fontName) {
+            const testString = "abcdefghijklmnopqrstuvwxyz0123456789";
+            const testElement = document.createElement("span");
+
+            testElement.style.fontFamily = fontName + ", monospace";
+            testElement.style.position = "absolute";
+            testElement.style.visibility = "hidden";
+            testElement.style.fontSize = "20px";
+            testElement.innerHTML = testString;
+            document.body.appendChild(testElement);
+
+            const defaultWidth = testElement.offsetWidth;
+            const defaultHeight = testElement.offsetHeight;
+
+            testElement.style.fontFamily = "monospace";
+            const monoWidth = testElement.offsetWidth;
+            const monoHeight = testElement.offsetHeight;
+
+            document.body.removeChild(testElement);
+
+            return defaultWidth !== monoWidth || defaultHeight !== monoHeight;
+        }
+
+        function applyFontFallback() {
+          document.fonts.load('1em VT323').then(() => {
+              if (document.fonts.check('1em VT323')) {
+                  document.body.style.fontFamily = "'VT323', monospace";
+              } else {
+                  document.body.style.fontFamily = "'Courier New', monospace";
+              }
+          }).catch(() => {
+              document.body.style.fontFamily = "'Courier New', monospace";
+          });
+
+        }
+
+        applyFontFallback();
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const scoreDisplay = document.querySelector('.score');
